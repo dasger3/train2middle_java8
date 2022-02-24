@@ -79,10 +79,7 @@ public class Java7Aggregator implements Aggregator {
     Comparator<String> listComparator = new Comparator<String>() {
         @Override
         public int compare(String e1, String e2) {
-            if (e1.length() == e2.length()) {
-                return e1.compareTo(e2);
-            }
-            return (e1.length() < e2.length()) ? -1 : 1;
+            return (e1.length() == e2.length()) ? e1.compareTo(e2) : (e1.length() < e2.length()) ? -1 : 1;
         }
     };
 }
