@@ -16,11 +16,13 @@ public class Java8ParallelAggregator implements Aggregator {
 
     @Override
     public List<Pair<String, Long>> getMostFrequentWords(List<String> words, long limit) {
-        List<Pair<String, Long>> result = new LinkedList<>();
-        words.parallelStream()
+        return words.parallelStream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                .forEach((key, value) -> result.add(new Pair<>(key, value)));
-        return result.parallelStream().limit(limit).collect(Collectors.toList());
+                .entrySet()
+                .parallelStream()
+                .map(e -> new Pair<>(e.getKey(), e.getValue()))
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
     @Override
